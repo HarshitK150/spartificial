@@ -8,7 +8,7 @@ __pycache__/
 *.log
 
 # Flask
-instance/
+instance/f
 .webassets-cache
 .env
 *.pot
