@@ -1,0 +1,34 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    padding: 20px;
+}
+h1 {
+    color: #18453B;
+}
+#chat-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    height: 300px;
+    overflow-y: scroll;
+    background-color: #fff;
+    margin-bottom: 10px;
+}
+.user-msg, .bot-msg {
+    margin: 5px 0;
+}
+input[type="text"] {
+    width: 70%;
+    padding: 10px;
+}
+button {
+    padding: 10px 15px;
+    background-color: #18453B;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #145a32;
+}

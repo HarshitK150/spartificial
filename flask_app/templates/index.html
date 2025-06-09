@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sparty Assistant</title>
+    <link rel="stylesheet" href="/flask_app/staticcss">
+</head>
+<body>
+    <h1>🗣️ Sparty Assistant Chatbot</h1>
+    <div id="chat-box"></div>
+    <input type="text" id="user-input" placeholder="Ask something..." autofocus>
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        async function sendMessage() {
+            const input = document.getElementById("user-input");
+            const message = input.value;
+            if (!message) return;
+            const chatBox = document.getElementById("chat-box");
+            chatBox.innerHTML += `<div class='user-msg'><strong>You:</strong> ${message}</div>`;
+            input.value = "";
+
+            const res = await fetch("/chat", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({message})
+            });
+            const data = await res.json();
+            chatBox.innerHTML += `<div class='bot-msg'><strong>Sparty:</strong> ${data.response}</div>`;
+        }
+    </script>
+</body>
+</html>
