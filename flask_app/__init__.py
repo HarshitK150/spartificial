@@ -6,12 +6,15 @@
 import os
 from flask import Flask
 from flask_failsafe import failsafe
+from dotenv import load_dotenv
 
 #--------------------------------------------------
 # Create a Failsafe Web Application
 #--------------------------------------------------
 @failsafe
 def create_app(debug=True):
+	load_dotenv()
+
 	app = Flask(__name__)
 
 	# This will prevent issues with cached static files
@@ -30,6 +33,7 @@ def create_app(debug=True):
 	db.createUser(email='guest@email.com' ,password='password', role='guest')
 	# ----------------------------------------------
 
-	with app.app_context():
-		from . import routes
-		return app
+	from .routes import chat_routes
+	app.register_blueprint(chat_routes)
+
+	return app

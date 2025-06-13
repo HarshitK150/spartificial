@@ -1,6 +1,7 @@
 flask
 gunicorn
 cryptography
-eventlet==0.30.2
 Flask-Failsafe
 mysql-connector-python
+openai==1.86.0
+python-dotenv==1.0.1

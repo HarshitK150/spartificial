@@ -1,6 +1,5 @@
 # Author: Harshit Kandpal <hkandpal944@gmail.com>
 
-version: "3.8"
 services:
   # A user-defined name for this container
   flask-app:

@@ -18,17 +18,17 @@ RUN service mysql start && mysql -e "CREATE USER 'master'@'localhost' IDENTIFIED
 #RUN service mysql start && mysql -e "CREATE USER 'master'@'localhost' IDENTIFIED BY 'master';CREATE DATABASE db; GRANT SUPER ON *.* TO 'master'@'localhost';"
 
 # Add the Flask application and install requirements
-RUN apt -y install python3-pip
+RUN apt -y install python3-pip python3-venv python3-dev build-essential libmysqlclient-dev
 RUN apt -y install vim
 RUN mkdir /app
 COPY . /app
 WORKDIR /app
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip3 install --upgrade pip
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Open ports, set environment variables, start the application.
 EXPOSE 8080 
-ENV PORT 8080
+ENV PORT=8080
 
 #EXPOSE 3336 
 #ENV PORT 3336

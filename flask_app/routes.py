@@ -1,22 +1,38 @@
 # Author: Harshit Kandpal <hkandpal944@gmail.com>
-from flask import current_app as app, send_from_directory, jsonify
+import os
+from flask import Blueprint, request, jsonify
 from flask import render_template, redirect, request, session, url_for, copy_current_request_context
 from .utils.database.database  import database
-from werkzeug.datastructures   import ImmutableMultiDict
-from pprint import pprint
-import json
-import random
-import functools
+from openai import OpenAI
+
 db = database()
+
+chat_routes = Blueprint("chat_routes", __name__)
 
 from .chatbot import get_response
 
-@app.route("/")
+@chat_routes.route("/")
 def home():
     return render_template("index.html")
 
-@app.route("/chat", methods=["POST"])
+@chat_routes.route("/chat", methods=["POST"])
 def chat():
-    user_input = request.json["message"]
-    response = get_response(user_input)
-    return jsonify({"response": response})
+    user_message = request.json.get("message")
+    if not user_message:
+        return jsonify({"error": "Missing 'message' field"}), 400
+
+    try:
+        client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        response = client.chat.completions.create(
+            model="gpt-4.1-nano",  # or "gpt-3.5-turbo"
+            messages=[
+                {"role": "system", "content": "You are Spartifical, a helpful campus/university assistant for Michigan State University."},
+                {"role": "user", "content": user_message}
+            ]
+        )
+
+        reply = response.choices[0].message.content
+        return jsonify({"reply": reply})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
